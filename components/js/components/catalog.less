@@ -1,0 +1,107 @@
+.catalog_component{
+padding: 40px 0;
+width: 700px;
+margin: 0 auto;
+.typo, .typo-title {
+    width: 100%;
+    word-wrap: break-word;
+}
+.typo {
+  position: relative;
+  height: auto;
+  min-height: 600px;
+  letter-spacing: .04em;
+}
+.typo-catalog {
+    position: relative;
+    padding: 0 0 120px;
+}
+
+.typo-catalog-detail li {
+    line-height: 18px;
+    font-size: 14px;
+}
+.typo-catalog-detail-item {
+    position: relative;
+    display: block;
+    padding: 0;
+    -webkit-animation: fadein 1s;
+    animation: fadein 1s;
+    .name .catalog-folder {
+        cursor: pointer;
+        color: #ccc;
+        margin-left: -12px;
+        font-size: 12px;
+    }
+}
+
+.typo-catalog-detail-item .name {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    padding-right: 32px;
+    z-index: 190;
+    color: #666;
+    padding-left: 0;
+}
+.typo-catalog-detail-item .slug {
+    position: absolute;
+    right: 0;
+    background: #fff;
+    padding-left: 32px;
+    z-index: 190;
+    color: #aaa;
+    font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
+}
+.typo-catalog-detail-item .slug a {
+    display: block;
+    color: #aaa;
+}
+.typo-catalog-detail li a {
+    position: relative;
+    padding: 12px 0;
+}
+.typo-catalog-detail-item:after {
+    content: " ";
+    width: 100%;
+    border-bottom: 1px dashed #e9e9e9;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    z-index: 180;
+}
+.typo-catalog-detail-item .name a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.typo-catalog-detail-item .name a {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 285px;
+    color: #666;
+}
+
+.typo-catalog-detail-item-1 .name {
+    padding-left: 0;
+    font-weight: 700;
+}
+.typo-catalog-detail-item-2 .name {
+    padding-left: 24px;
+}
+.typo-catalog-detail-item .name a:hover {
+    color: #51b063;
+}
+.typo-catalog-detail-item .slug a:hover {
+    color: #51b063;
+}
+}
+.cm-tab:after {
+    position: absolute;
+    width: 1px;
+    left: 4px;
+    height: 100%;
+    top: 0;
+    border-left: 1px solid #e9e9e9;
+    content: " ";
+}

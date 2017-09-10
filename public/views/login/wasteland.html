@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<meta charset='utf-8' />
+	<meta name="shanqing" Content="hr@eigpay.com">
+	<meta name="Copyright" Content="shanqing All Rights Reserved">
+	<meta name="robots" content="index,follow" />
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<link href="https://cdn.bootcss.com/meyer-reset/2.0/reset.min.css" rel="stylesheet">
+	<!--<link href=" ../js/styles.css" rel="stylesheet">-->
+	<link href=" http://localhost:8080/styles.css" rel="stylesheet">
+	<style media="screen">
+	body {
+	margin:0;
+	}
+
+	.wasteland {
+	animation:zoomIn 10s linear infinite alternate;
+	background-image:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/71829/wasteland.jpg);
+	background-size:cover;
+	height:100vh;
+	position:fixed;
+	width:100vw;
+	left: 0;
+	top: 0;
+	z-index: -1;
+	}
+
+	.glass {
+	animation:zoomIn 10s linear infinite alternate-reverse;
+	background-image:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/71829/5791996587_7b192ffbf7_o.jpg);
+	background-size:cover;
+	height:100vh;
+	left: 0;
+	top: 0;
+	z-index: -1;
+	opacity:.3;
+	position:fixed;
+	width:100vw;
+	}
+
+	@keyframes zoomIn {
+	0% {
+	transform:scale(1);
+	}
+	100% {
+	transform:scale(1.5);
+	}
+	}
+	</style>
+</head>
+<body>
+
+
+<script>
+
+</script>
+<div id="react" style="height:100%"></div>
+<div class="wasteland"></div>
+<div class="glass"></div>
+<script src="https://cdn.bootcss.com/prefixfree/1.0.6/prefixfree.min.js"></script>
+<!--<script src=" ../js/vendor.js"></script>-->
+<!--<script src=" ../js/bundle.js"></script>-->
+<script src="http://localhost:8080/vendor.js"></script>
+<script src="http://localhost:8080/bundle.js"></script>
+</body>
+</html>
