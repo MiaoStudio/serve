@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style media="screen">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="https://cdn.bootcss.com/p5.js/0.5.10/p5.min.js"></script>
+    <script>
+        'use strict';
+        var windowW = window.innerWidth;
+        var windowH = window.innerHeight;
+        var channelLen = 4;
+        var imgOrigin = undefined;
+        var isLoaded = false;
+        var imgSrc =
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495795285807&di=0f5efd788b53bc8d5f5e9f4f98aaec48&imgtype=0&src=http%3A%2F%2Fpic.coolchuan.com%2Fanzhuoyuan%2Fdownload%2Fcoolchuan%2F233d5d90a49ce1d20ba10b268e7c8480.png';
+        var cellSizeStart = 80;
+        var cellSize = cellSizeStart;
+
+        function setup() {
+            color(255, 0, 0);
+            background(0);
+            createCanvas(windowW, windowH);
+            loadImage(imgSrc, function(img) {
+                imgOrigin = img;
+                imgOrigin.loadPixels();
+                isLoaded = true;
+            });
+        }
+
+        function draw() {
+            clear();
+            background(0);
+            noStroke();
+            if (isLoaded) {
+                cellSize -= 1;
+                if (cellSize > 1) {
+                    push();
+                    translate((width - imgOrigin.width) / 2, (height - imgOrigin.height) / 2);
+                    for (var y = 0; y < imgOrigin.height; y += cellSize) {
+
+                        for (var x = 0; x < imgOrigin.width; x += cellSize) {
+
+                            var r = undefined,
+                                g = undefined,
+                                b = undefined,
+                                a = undefined;
+                            var index = undefined;
+                            index = (y * imgOrigin.width + x) * channelLen;
+                            r = imgOrigin.pixels[index];
+                            g = imgOrigin.pixels[index + 1];
+                            b = imgOrigin.pixels[index + 2];
+                            a = imgOrigin.pixels[index + 3];
+                            fill(r, g, b, a);
+                            rect(x, y, cellSize, cellSize);
+                        }
+
+                    }
+
+                    pop();
+                } else {
+                    push();
+                    translate((width - imgOrigin.width) / 2, (height - imgOrigin.height) / 2);
+                    image(imgOrigin, 0, 0);
+                    pop();
+                }
+            } // fill(255, 255, 255);
+            // textSize(14);
+            // text('FPS: ' + floor(frameRate()), 20, 30);
+        }
+
+        function mouseClicked() {
+            cellSize = cellSizeStart;
+        }
+        //# sourceURL=pen.js
+    </script>
+  
+</html>

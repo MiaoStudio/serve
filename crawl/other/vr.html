@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body class="a-body">
+
+  <script src="https://cdn.bootcss.com/aframe/0.5.0/aframe.min.js"></script>
+  <script src="https://res.cloudinary.com/dybluctxg/raw/upload/v1495309810/index_bp9czc.js"></script>
+  <a-scene class="fullscreen" canvas="" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui="" auto-enter-vr="">
+    <a-assets>
+      <a-mixin class="links" id="social" geometry="primitive: circle; radius: 0.09" material="color: #fff; transparent: true"></a-mixin>
+      <img id="field" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495792913546&di=9a491ec2ea359aebdc524f0ed99b123b&imgtype=0&src=http%3A%2F%2Fm.szqt.net%2Fupfile%2F2016%2F01%2F20160128162726_678.jpg" crossorigin="anonymous">
+      <img id="photo" src="https://res.cloudinary.com/dybluctxg/image/upload/v1495307503/owl_vsg52w.jpg" crossorigin="anonymous">
+      <img
+        id="twitter" src="https://res.cloudinary.com/dybluctxg/image/upload/v1495307560/twitter_wghtwy.png" crossorigin="anonymous">
+      <img id="codepen" src="https://res.cloudinary.com/dybluctxg/image/upload/c_scale,w_64/v1495310388/Button-Black-Large_n8o5ix.png" crossorigin="anonymous">
+      <img id="github" src="https://res.cloudinary.com/dybluctxg/image/upload/v1495310880/github_ipn5do.png"
+          crossorigin="anonymous">
+    </a-assets>
+    <a-entity geometry="primitive: plane; width: 1.8; height: 2" material="color: #FFF" position="0 2 0" rotation="" scale="" visible="">
+      <a-plane width="1.8" height="0.9" position="0 0.7 0.01" src="#photo" rotation="" scale="" visible="" material="" geometry=""></a-plane>
+      <a-text value="chinese cannot be rendered" color="#4B5154" width="4" position="-0.55 0 0.01" rotation="" scale="" visible="" text=""></a-text>
+      <a-plane width="1.6" height="0.4" position="0 -0.35 0.01" rotation="" scale="" visible="" material="" geometry="">
+        <a-text value="chinese cannot be rendered chinese cannot be rendered." color="#697982" anchor="center" width="1.6" position="" rotation="" scale=""
+          visible="" text=""></a-text>
+      </a-plane>
+      <a-plane width="1.6" height="0.01" position="0 -0.6 0.01" color="#697982" opacity="0.3" rotation="" scale="" visible="" material="" geometry=""></a-plane>
+      <a-plane width="1.6" height="0.2" position="0 -0.8 0.1" rotation="" scale="" visible="" material="" geometry="">
+        <a-entity mixin="social" material="src: #codepen" position="-0.3 0 0.01" href="https://codepen.io/elliepooh/" target="#scale" rotation="" scale="" visible="" geometry="">
+          <a-animation id="scale" attribute="scale" from="1 1 1" to="1.6 1.6 1.6" begin="href" dur="800" easing="ease-in"></a-animation>
+        </a-entity>
+        <a-entity mixin="social" material="src: #twitter; color: #1DA1F2" position="0 0 0.01" href="https://twitter.com/lizakobrazova/" target="_blank#scale" rotation="" scale="" visible="" geometry="">
+          <a-animation id="scale" attribute="scale" from="1 1 1" to="1.6 1.6 1.6" begin="href" dur="800" easing="ease-in"></a-animation>
+        </a-entity>
+        <a-entity mixin="social" material="src: #github" position="0.3 0 0.01" href="https://github.com/elliepooh/" target="_blank#scale" rotation="" scale="" visible="" geometry="">
+          <a-animation id="scale" attribute="scale" from="1 1 1" to="1.6 1.6 1.6" begin="href" dur="800" easing="ease-in"></a-animation>
+        </a-entity>
+      </a-plane>
+    </a-entity>
+    <a-sky radius="10" src="#field" position="" rotation="" scale="" visible="" material="" geometry=""></a-sky>
+    <a-entity camera="camera" look-controls="look-controls" wasd-controls="wasd-controls" position="0 2 1.8" rotation="" scale="" visible="">
+      <a-cursor color="#FFF849" fuse="true" position="" rotation="" scale="" visible="" material="" raycaster="" cursor="" geometry=""></a-cursor>
+    </a-entity>
+    <canvas class="a-canvas a-grab-cursor" data-aframe-canvas="true" width="1366" height="84" style="width: 1366px; height: 84px;"></canvas>
+    <div class="a-enter-vr" aframe-injected=""><button class="a-enter-vr-button" aframe-injected=""></button></div>
+    <div class="a-orientation-modal a-hidden" aframe-injected=""><button aframe-injected="">Exit VR</button></div>
+    <a-entity light="" data-aframe-default-light="" aframe-injected="" position="" rotation="" scale="" visible=""></a-entity>
+    <a-entity light="" position="" data-aframe-default-light="" aframe-injected="" rotation="" scale="" visible=""></a-entity>
+  </a-scene>
+  <script>
+    /* I used hyper link component for A-Frame, you can find it here: https://github.com/gasolin/aframe-href-component */
+    //# sourceURL=pen.js
+  </script>
+</body>
+
+</html>

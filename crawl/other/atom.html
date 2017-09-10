@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+  body {
+height: 100vh;
+display: -webkit-box;
+display: -ms-flexbox;
+display: flex;
+-webkit-box-pack: center;
+    -ms-flex-pack: center;
+        justify-content: center;
+-webkit-box-align: center;
+    -ms-flex-align: center;
+        align-items: center;
+background: #2A2C2E;
+}
+
+.atom {
+width: 200px;
+height: 200px;
+position: relative;
+}
+.atom::before {
+font-size: 6px;
+width: 1em;
+height: 1em;
+background: #00D7FE;
+border-radius: 50%;
+box-shadow: 0 0 1.5em 1px #00D7FE;
+content: "";
+position: absolute;
+top: 50%;
+left: 50%;
+-webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+}
+.atom_particle {
+width: 100%;
+height: 100%;
+position: absolute;
+left: 0;
+top: 0;
+-webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+}
+.atom_particle svg {
+width: 100%;
+height: 100%;
+position: absolute;
+left: 0;
+top: 0;
+}
+.atom_particle svg circle {
+stroke: #00D7FE;
+stroke-dasharray: 502.4;
+stroke-dashoffset: 502.4;
+-webkit-animation: draw-circle 1.2s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+        animation: draw-circle 1.2s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+}
+@-webkit-keyframes draw-circle {
+0% {
+  stroke-dashoffset: 502.4;
+}
+50% {
+  stroke-dashoffset: 0;
+}
+100% {
+  stroke-dashoffset: -502.4;
+}
+}
+@keyframes draw-circle {
+0% {
+  stroke-dashoffset: 502.4;
+}
+50% {
+  stroke-dashoffset: 0;
+}
+100% {
+  stroke-dashoffset: -502.4;
+}
+}
+.atom_particle:nth-child(1) {
+-webkit-transform: rotateX(80deg) rotateY(20deg);
+        transform: rotateX(80deg) rotateY(20deg);
+}
+.atom_particle:nth-child(2) {
+-webkit-transform: rotateX(75deg) rotateY(60deg);
+        transform: rotateX(75deg) rotateY(60deg);
+}
+.atom_particle:nth-child(2) circle {
+-webkit-animation-delay: .125s;
+        animation-delay: .125s;
+}
+.atom_particle:nth-child(3) {
+-webkit-transform: rotateX(-75deg) rotateY(60deg);
+        transform: rotateX(-75deg) rotateY(60deg);
+}
+.atom_particle:nth-child(3) circle {
+-webkit-animation-delay: .25s;
+        animation-delay: .25s;
+}
+.atom_particle:nth-child(4) {
+-webkit-transform: rotateX(-80deg) rotateY(20deg);
+        transform: rotateX(-80deg) rotateY(20deg);
+}
+.atom_particle:nth-child(4) circle {
+-webkit-animation-delay: .375s;
+        animation-delay: .375s;
+}
+
+  </style>
+</head>
+<body>
+<div class="atom">
+  <div class="atom_particle">
+    <svg>
+      <circle cx="100" cy="100" fill="none" r="80" stroke-width="5"></circle>
+    </svg>
+  </div>
+  <div class="atom_particle">
+    <svg>
+      <circle cx="100" cy="100" fill="none" r="80" stroke-width="5"></circle>
+    </svg>
+  </div>
+  <div class="atom_particle">
+    <svg>
+      <circle cx="100" cy="100" fill="none" r="80" stroke-width="5"></circle>
+    </svg>
+  </div>
+  <div class="atom_particle">
+    <svg>
+      <circle cx="100" cy="100" fill="none" r="80" stroke-width="5"></circle>
+    </svg>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+  body {
+background: #111;
+overflow: hidden;
+}
+
+.bg {
+height: 30vh;
+width: 30vh;
+border-radius: 50%;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+z-index: 0;
+background: #fff;
+animation: move infinite 2s;
+}
+
+.text {
+position: absolute;
+color: #fff;
+text-transform: uppercase;
+font-family: sans-serif;
+font-weight: bold;
+letter-spacing: 0.25em;
+font-size: 3em;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+z-index: 100;
+mix-blend-mode: difference;
+}
+
+svg {
+height: 30vh;
+position: absolute;
+left: 50%;
+}
+svg path {
+mix-blend-mode: difference;
+}
+
+@keyframes move {
+0% {
+  transform: translate(-50%, -50%);
+}
+50% {
+  transform: translate(-50%, -50%) scale(3.5);
+}
+}
+
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="text">Mix Blend Mode</div>
+<svg viewBox="0 0 768 768">
+<path fill="#fff" d="M736.5 175.5v465c0 70.5-58.5 127.5-129 127.5h-232.5c-34.5 0-67.5-13.5-91.5-37.5l-252-256.5s40.5-39 42-39c7.5-6 16.5-9 25.5-9 7.5 0 13.5 1.5 19.5 4.5 1.5 0 138 78 138 78v-381c0-27 21-48 48-48s48 21 48 48v225h31.5v-304.5c0-27 21-48 48-48s48 21 48 48v304.5h31.5v-273c0-27 21-48 48-48s48 21 48 48v273h33v-177c0-27 21-48 48-48s48 21 48 48z"></path>
+</svg>
+
+</body>
+</html>
