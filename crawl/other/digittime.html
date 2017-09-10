@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+
+body {
+padding: 2em;
+background-color: #555;
+}
+
+.inputStyle {
+display: block;
+width: 60%;
+padding: 0.5em 1em;
+margin: 1em auto;
+border: none;
+font-family: "consolas", monospace;
+font-size: 1.2em;
+}
+
+.section-title {
+font-size: 2.5em;
+color: #eee;
+font-family: "Open Sans", Arial, sans-serif;
+font-weight: 300;
+text-align: center;
+margin: 1em 0;
+}
+
+
+.attrib {
+background-color: #888;
+  padding: 10px;
+  text-align: center;
+  font-family: "Consolas";
+}
+
+.attrib .credits a {
+  color: #7dffee;
+}
+
+
+
+/* section - digits time */
+.times-digit {
+text-align: center;
+}
+
+.hours, .minutes, .seconds {
+display: inline-block;
+}
+
+.times-digit .digit,
+.times-digit .colon{
+display: inline-block;
+}
+
+/* section - digits go random */
+.digits-go-random .digit {
+float: left;
+transform: scale(0.5);
+transition: 0.2 all ease-in-out;
+}
+
+.digits-go-random .digit:hover {
+transform: scale(1);
+transition: 0.2 all ease-in-out;
+}
+
+
+/* Digits CSS */
+
+
+.digit, .colon {
+position: relative;
+margin: 2em 1em;
+width: 120px;
+height: 240px;
+}
+
+.colon {
+width: 80px;
+}
+.colon .circle {
+position: absolute;
+width: 40px;
+height: 40px;
+background-color: #fff;
+border-radius: 50%;
+box-shadow: 0 12px 0px -1px rgba(0,0,0,0.45);
+
+left: 50%;
+margin-left: -20px;
+}
+
+.colon .circle-1 {
+top: 50%;
+margin-top: -80px;
+}
+
+.colon .circle-2 {
+top: 50%;
+margin-top: 40px;
+}
+
+.digit .line {
+background-color: #fff;
+position: absolute;
+border-radius: 5px;
+
+box-shadow: 0 12px 0px -1px rgba(0,0,0,0.45);
+
+transition: 0.2s all ease-in-out;
+}
+
+.line-1, .line-2, .line-5 {
+width: 120px;
+height: 30px;
+}
+
+
+.line-3, .line-4, .line-6, .line-7 {
+width: 30px;
+height: 120px;
+}
+
+
+.line-1 {
+top: 0;
+left: 0;
+right: 0;
+}
+
+.line-2 {
+bottom: 0;
+left: 0;
+right: 0;
+}
+
+.line-3 {
+left: 0;
+}
+
+.line-4 {
+right: 0;
+}
+
+
+.line-5 {
+top: 105px;
+}
+
+
+.line-6 {
+top: 120px;
+left: 0;
+}
+
+.line-7 {
+top: 120px;
+right: 0;
+}
+
+
+
+/* Digit 1 */
+.digit-1 .line-2,
+.digit-1 .line-3,
+.digit-1 .line-5,
+.digit-1 .line-1,
+.digit-1 .line-6{
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+/* Digit 2 */
+.digit-2 .line-3,
+.digit-2 .line-7{
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+/* Digit 2 */
+.digit-3 .line-3,
+.digit-3 .line-6{
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+/* Digit 4 */
+.digit-4 .line-1,
+.digit-4 .line-2,
+.digit-4 .line-6 {
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+/* Digit 5 */
+.digit-5 .line-4,
+.digit-5 .line-6 {
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+/* Digit 6 */
+.digit-6 .line-4 {
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+/* Digit 7 */
+.digit-7 .line-2,
+.digit-7 .line-3,
+.digit-7 .line-5,
+.digit-7 .line-6{
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+/* Digit 9 */
+.digit-9 .line-0,
+.digit-9 .line-2,
+.digit-9 .line-6 {
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+/* Digit 0 */
+.digit-0 .line-5 {
+opacity: 0.1;
+transform: rotateZ(360deg);
+}
+
+
+
+
+  </style>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+</head>
+<body>
+
+<article class="digits-time">
+  <h3 class="section-title">Digits Time (hh:mm:ss)</h3>
+
+  <div style="text-align: center;">
+    <a href="https://codepen.io/depy/details/VbxQNN/" target="_blank" style="color: #ccc; text-decoration: none; border-bottom: 2px solid #eee;">see : Time Change Effect #1</a>
+  </div>
+
+  <div class="times-digit">
+  <div class="hours">
+
+  <div class="digit digit-1">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+    <div class="line line-5"></div>
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+  <div class="digit digit-5">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+    <div class="line line-5"></div>
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+    </div>
+
+    <div class="colon">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
+
+    <div class="minutes">
+    <div class="digit digit-2">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+    <div class="line line-5"></div>
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+  <div class="digit digit-1">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+    <div class="line line-5"></div>
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+    </div>
+
+  <div class="colon">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
+
+    <div class="seconds">
+    <div class="digit digit-5">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+    <div class="line line-5"></div>
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+  <div class="digit digit-9">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+    <div class="line line-5"></div>
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+    </div>
+
+  </div>
+
+  <br><br>
+  <input type="text" value="" placeholder="transform: rotateZ(360deg);" class="inputStyle">
+  <pre style="color: #fff; width: 60%; margin: 1em auto;">  <b>try these</b><br>
+  transform: rotate(35deg); opacity: 0;} body {background: #001100;} <br>
+  transform: scale(0.2); opacity: 0;<br>
+  transform: scale(1.6); opacity: 0;<br>
+  transform: translate(50px) scale(0.5); opacity: 0;
+  </pre>
+
+</article>
+
+<article class="digits-go-random">
+  <h3 class="section-title">Digits go random</h3>
+  <div class="digit digit-3">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+
+  <div class="digit digit-1">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+  </div>
+
+
+  <div class="digit digit-8">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+
+  <div class="digit digit-2">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+  <div class="digit digit-1">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+
+  <div class="digit digit-4">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+  <div class="digit digit-9">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+
+
+
+  <div class="digit digit-8">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+  <div class="digit digit-1">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+  <div class="digit digit-7">
+
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+
+    <div class="line line-3"></div>
+    <div class="line line-4"></div>
+
+    <div class="line line-5"></div>
+
+    <div class="line line-6"></div>
+    <div class="line line-7"></div>
+
+  </div>
+
+
+</article>
+
+
+<div class="clear" style="clear: both;"></div>
+
+<footer class="attrib">
+  <div style="text-align: center;">
+    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Time Change Effect with jQuery" data-via="xxxdepy" data-size="large">
+Tweet</a>
+
+    <div class="g-plusone" data-href="http://codepen.io/depy/details/VbxQNN/"></div>
+
+  </div>
+  <br>
+<div class="credits">
+  Created by <a href="https://twitter.com/xxxdepy" target="_blank">Deepak Kamat @xxxdepy</a>
+  </div>
+</footer>
+
+
+
+
+
+
+<style id="newTransformStyle">.digit-1 .line-2, .digit-1 .line-3, .digit-1 .line-5, .digit-1 .line-1, .digit-1 .line-6, .digit-2 .line-3, .digit-2 .line-7, .digit-3 .line-3, .digit-3 .line-6, .digit-4 .line-1, .digit-4 .line-2, .digit-4 .line-6, .digit-5 .line-4, .digit-5 .line-6, .digit-6 .line-4, .digit-7 .line-2, .digit-7 .line-3, .digit-7 .line-5, .digit-7 .line-6, .digit-9 .line-2, .digit-9 .line-6, .digit-0 .line-5 {
+  transform: translate(50px) scale(0.5); opacity: 0;
+}</style>
+<script>
+
+$(document).ready(function(){
+  // time using momentJs
+  var $timesDigit = $(".times-digit");
+
+  window.setInterval(function(){
+    var timeObject = moment().toObject();
+    var timeStr = "";
+
+    timeObject.hours   = timeObject.hours   > 9 ?  timeObject.hours   : "0" + timeObject.hours;
+    timeObject.minutes = timeObject.minutes > 9 ?  timeObject.minutes : "0" + timeObject.minutes;
+    timeObject.seconds = timeObject.seconds > 9 ?  timeObject.seconds : "0" + timeObject.seconds;
+
+
+    str = timeObject.hours + "" + timeObject.minutes + "" + timeObject.seconds;
+    str = str.split("");
+    var i = 0;
+
+    $(".times-digit .digit").each(function(e){
+      $(this).attr("class", "digit digit-" + str[i]);
+      i++;
+    });
+
+
+  }, 1000);
+
+  // Random digits
+  window.setInterval(function(){
+    $(".digits-go-random .digit").each(function(e){
+      var randomDig = getRandomInt(0, 9);
+      $(this).attr("class", "digit digit-" + randomDig);
+    });
+  }, 500);
+
+
+
+  // Changing styles
+  $(".inputStyle").on("keyup", function(){
+    var inputStyleVal = $(this).val();
+    var _style = `.digit-1 .line-2, .digit-1 .line-3, .digit-1 .line-5, .digit-1 .line-1, .digit-1 .line-6, .digit-2 .line-3, .digit-2 .line-7, .digit-3 .line-3, .digit-3 .line-6, .digit-4 .line-1, .digit-4 .line-2, .digit-4 .line-6, .digit-5 .line-4, .digit-5 .line-6, .digit-6 .line-4, .digit-7 .line-2, .digit-7 .line-3, .digit-7 .line-5, .digit-7 .line-6, .digit-9 .line-2, .digit-9 .line-6, .digit-0 .line-5 {
+  ${inputStyleVal}
+}`;
+    $("#newTransformStyle").html( _style );
+  });
+
+});
+
+
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+//# sourceURL=pen.js
+</script>
+</body>
+</html>

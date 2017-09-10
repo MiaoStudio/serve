@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+  body, html {
+position: absolute;
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+background:#000;
+}
+
+canvas {
+position: absolute;
+width: 100%;
+height: 100%;
+background:#000;
+}
+  </style>
+</head>
+<body>
+
+<script>"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+	(function () {
+		// main loop
+
+		var run = function run() {
+			requestAnimationFrame(run);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			pointer.lerp(0.05);
+			if (M < 0.25 * Math.min(canvas.width, canvas.height)) M += 0.5;
+			doots[pos % num].init(M);
+			for (var i = pos; i < pos + num; ++i) {
+				doots[i % num].move();
+			}
+			++pos;
+		};
+
+		var Doots = function () {
+			function Doots() {
+				_classCallCheck(this, Doots);
+
+				this.r = 0;
+				this.x = 0;
+				this.y = 0;
+				this.a = 0;
+			}
+
+			Doots.prototype.init = function init(d) {
+				var x = Math.cos(pos / 40) * d;
+				var y = Math.sin(pos / 34) * d;
+				this.r = 2;
+				this.x = pointer.ex + x;
+				this.y = pointer.ey + y;
+				this.a = Math.atan2(pointer.y + y - pointer.ey, pointer.x + x - pointer.ex);
+			};
+
+			Doots.prototype.plot = function plot(x, y) {
+				var px = Math.cos(x + this.a);
+				var py = Math.sin(y + this.a);
+				ctx.beginPath();
+				ctx.arc(this.x + this.r * px, this.y + this.r * py, this.r * 0.5, 0, 2 * Math.PI);
+				ctx.fill();
+			};
+
+			Doots.prototype.move = function move() {
+				this.r *= 1.05;
+				ctx.fillStyle = "hsl(" + (this.x / canvas.width * 180 + this.y / canvas.height * 180) + ", 70%, " + 1 * (K / this.r) + "%";
+				var x = 0,
+				    y = 0,
+				    inc = Math.PI / 2;
+				this.plot(x += inc, y += inc);
+				this.plot(x += inc, y += inc);
+				this.plot(x += inc, y += inc);
+				this.plot(x += inc, y += inc);
+			};
+
+			return Doots;
+		}();
+		// setup canvas
+
+		var canvas = {
+			init: function init() {
+				this.elem = document.createElement("canvas");
+				var ctx = this.elem.getContext("2d", { alpha: false });
+				document.body.appendChild(this.elem);
+				this.resize();
+				window.addEventListener("resize", function () {
+					return canvas.resize();
+				}, false);
+				return ctx;
+			},
+			resize: function resize() {
+				this.width = this.elem.width = this.elem.offsetWidth;
+				this.height = this.elem.height = this.elem.offsetHeight;
+			}
+		};
+		// setup pointer
+		var pointer = {
+			init: function init(canvas) {
+				this.x = this.ex = canvas.width * 0.5;
+				this.y = this.ey = canvas.height * 0.5;
+				window.addEventListener("mousemove", function (e) {
+					return pointer.move(e);
+				}, false);
+				canvas.elem.addEventListener("touchmove", function (e) {
+					return pointer.move(e);
+				}, false);
+			},
+			move: function move(e) {
+				var touchMode = e.targetTouches,
+				    p = undefined;
+				if (touchMode) {
+					e.preventDefault();
+					p = touchMode[0];
+				} else p = e;
+				this.x = p.clientX;
+				this.y = p.clientY;
+				if (M > 1) M--;
+			},
+			lerp: function lerp(v) {
+				this.ex += (this.x - this.ex) * v;
+				this.ey += (this.y - this.ey) * v;
+			}
+		};
+		// pen setup
+		var ctx = canvas.init();
+		pointer.init(canvas);
+		var doots = [];
+		var num = 160;
+		var K = 2;
+		var pos = 0;
+		var M = 1;
+		for (var i = 0; i < num; ++i) {
+			doots.push(new Doots());
+			K *= 1.05;
+		}
+		run();
+	})();
+}
+//# sourceURL=pen.js
+</script>
+
+</body>
+</html>

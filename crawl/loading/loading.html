@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+  html,
+body {
+padding: 0;
+margin: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <script>
+    'use strict';
+
+    var _createClass = function() {
+      function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+        }
+      }
+      return function(Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+      };
+    }();
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    var Wave = function() {
+      function Wave(height, power) {
+        _classCallCheck(this, Wave);
+
+        this.__force = 0;
+        this.__wavePower = power || 60;
+        this.__count = 0;
+        this.__y = height;
+        this.__alpha = 1;
+        this.__pos = 0;
+        this.__dir = 1;
+        this.__h = height;
+      }
+
+      Wave.prototype.update = function update() {
+        this.__y -= this.__dir * Math.random();
+        if (this.__y < 1 || this.__y > this.__h) {
+          this.__dir *= -1;
+        }
+        this.__force = Math.sin(this.__count);
+        this.__count += .1;
+        this.__pos += .04;
+      };
+
+      Wave.prototype.draw = function draw(ctx, w, h) {
+
+        ctx.fillStyle = makeGrd(h);
+        console.log(this.__y);
+        ctx.beginPath();
+        ctx.moveTo(0, this.__y);
+
+        var p = Math.sin(this.__pos);
+
+        ctx.quadraticCurveTo(w * (p + .25), this.__y + this.__wavePower * this.__force, w * (p + .5), this.__y);
+        ctx.quadraticCurveTo(w * (p + .75), this.__y - this.__wavePower * this.__force, w, this.__y);
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.lineTo(0, this.__y);
+        ctx.closePath();
+        ctx.fill();
+      };
+
+      _createClass(Wave, [{
+        key: 'height',
+        get: function get() {
+          return this.__h;
+        },
+        set: function set(value) {
+          this.__h = Math.max(0, value);
+        }
+      }, {
+        key: 'percent',
+        get: function get() {
+          return (1 - this.__y / this.__h) * 100;
+        },
+        set: function set(value) {
+          this.__y = this.__h * (1 - value / 100);
+        }
+      }]);
+
+      return Wave;
+    }();
+
+    var canvas = document.createElement('canvas');
+    document.body.appendChild(canvas);
+
+    var w = canvas.width = document.body.clientWidth;
+    var h = canvas.height = document.body.clientHeight;
+    var ctx = canvas.getContext('2d');
+
+    var wave = new Wave(h, 100);
+
+    var grd = undefined;
+
+    function makeGrd(h) {
+      var g = ctx.createLinearGradient(0, 0, 0, h);
+      g.addColorStop(0, '#419dff');
+      g.addColorStop(1, '#66bfff');
+      return g;
+    }
+
+    function draw() {
+      requestAnimationFrame(draw);
+
+      if (w !== document.body.clientWidth) {
+        canvas.width = w = document.body.clientWidth;
+      }
+
+      if (!grd || h !== document.body.clientHeight) {
+        canvas.height = h = document.body.clientHeight;
+        grd = makeGrd(h);
+      }
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = "rgba(255, 255, 255, 1)";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.globalCompositeOperation = 'xor';
+
+      ctx.fillStyle = "rgba(0, 0, 0, 1)";
+      ctx.fillRect(0, 0, w, h);
+
+      wave.draw(ctx, w, h);
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = 'middle';
+      ctx.font = 'bold 10rem serif';
+      ctx.fillStyle = "rgba(0, 0, 0, 1)";
+      ctx.fillText((wave.percent | 0) + '%', w / 2, h / 2);
+
+      wave.update();
+    }
+
+    draw();
+    //# sourceURL=pen.js
+  </script>
+  <canvas width="1366" height="44"></canvas>
+</body>
+
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<meta charset='utf-8' />
+	<meta name="shanqing" Content="hr@eigpay.com">
+	<meta name="Copyright" Content="shanqing All Rights Reserved">
+	<meta name="robots" content="index,follow" />
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<link href="https://cdn.bootcss.com/meyer-reset/2.0/reset.min.css" rel="stylesheet">
+	<link href="http://localhost:8080/styles.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/p5.js/0.5.7/p5.min.js"></script>
+	<style media="screen">
+	html,body{
+margin: 0;
+padding: 0;
+overflow: hidden;
+}
+canvas{
+	position: fixed;
+z-index: -1;
+top: 0;
+left: 0;
+}
+	</style>
+</head>
+<body>
+
+
+	<script>
+		'use strict';
+
+		function _classCallCheck(instance, Constructor) {
+			if (!(instance instanceof Constructor)) {
+				throw new TypeError("Cannot call a class as a function");
+			}
+		}
+		var windowW = window.innerWidth;
+		var windowH = window.innerHeight;
+		var channelLen = 4;
+		var imgOrigin = undefined;
+		var copyData = [];
+		var isLoaded = false;
+		var glitch = undefined;
+		var flowLineImgs = [];
+		var shiftLineImgs = [];
+		var shiftRGBs = [];
+		var scatImgs = [];
+		var imgSrc =
+			'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496385866&di=5cca2cec1631dec6e6a4e9ee8acf0457&imgtype=jpg&er=1&src=http%3A%2F%2Fpic26.photophoto.cn%2F20130131%2F0005018397835723_b.jpg';
+
+		function setup() {
+			background(0);
+			createCanvas(windowW, windowH); // flow line
+			for (var i = 0; i < 1; i++) {
+				// if (window.CP.shouldStopExecution(1)) {
+				//   break;
+				// }
+				var o = {
+					pixels: null,
+					t1: floor(random(0, 1000)),
+					speed: floor(random(1, 4)),
+					randX: floor(random(24, 80))
+				};
+				flowLineImgs.push(o);
+			}
+			// window.CP.exitedLoop(1);
+			// shift line
+			for (var i = 0; i < 6; i++) {
+				// if (window.CP.shouldStopExecution(2)) {
+				//   break;
+				// }
+				var o = null;
+				shiftLineImgs.push(o);
+			}
+			// window.CP.exitedLoop(2);
+			// shift RGB
+			for (var i = 0; i < 1; i++) {
+				// if (window.CP.shouldStopExecution(3)) {
+				//   break;
+				// }
+				var o = null;
+				shiftRGBs.push(o);
+			}
+			// window.CP.exitedLoop(3);
+			// scat imgs
+			for (var i = 0; i < 3; i++) {
+				// if (window.CP.shouldStopExecution(4)) {
+				//   break;
+				// }
+				var scatImg = {
+					img: null,
+					x: 0,
+					y: 0
+				};
+				scatImgs.push(scatImg);
+			}
+			// window.CP.exitedLoop(4);
+			loadImage(imgSrc, function(img) {
+			// loadImage('', function(img) {
+				imgOrigin = img;
+				imgOrigin.loadPixels();
+				copyData = new Uint8ClampedArray(imgOrigin.pixels);
+				glitch = new Glitch();
+				isLoaded = true;
+			});
+		}
+
+		function draw() {
+			clear();
+			background(0);
+			if (isLoaded) { // restore the original state
+				glitch.resetData(imgOrigin, copyData); // flow line
+				// flowLineImgs.forEach(function(v, i, arr) {
+				//     arr[i].pixels = glitch.flowLine(imgOrigin, v);
+				//     if (arr[i].pixels) {
+				//         glitch.resetData(imgOrigin, arr[i].pixels);
+				//     }
+				// })
+				// shift line
+				shiftLineImgs.forEach(function(v, i, arr) {
+					if (floor(random(100)) > 90) {
+						arr[i] = glitch.shiftLine(imgOrigin);
+						glitch.resetData(imgOrigin, arr[i]);
+					}
+					if (arr[i]) {
+						glitch.resetData(imgOrigin, arr[i]);
+					}
+				}); // restore the original state
+				if (floor(random(100)) > 70) {
+					glitch.resetData(imgOrigin, copyData);
+				} // shift rgb
+				shiftRGBs.forEach(function(v, i, arr) {
+					if (floor(random(100)) > 50) {
+						arr[i] = glitch.shiftRGB(imgOrigin);
+						glitch.resetData(imgOrigin, arr[i]);
+					} // if (arr[i]) {
+					//     glitch.resetData(imgOrigin, arr[i]);
+					// }
+				});
+				push();
+				translate((width - imgOrigin.width) / 2, (height - imgOrigin.height) / 2);
+				image(imgOrigin, 0, 0);
+				pop(); // scat image
+				scatImgs.forEach(function(obj) {
+					push();
+					translate((width - imgOrigin.width) / 2, (height - imgOrigin.height) / 2);
+					if (floor(random(100)) > 80) {
+						obj.x = floor(random(-imgOrigin.width * 0.3, imgOrigin.width * 0.7));
+						obj.y = floor(random(-imgOrigin.height * 0.1, imgOrigin.height));
+						obj.img = glitch.getRandomRectImg(imgOrigin);
+					}
+					if (obj.img) {
+						image(obj.img, obj.x, obj.y);
+					}
+					pop();
+				});
+			} // fill(255, 255, 255);
+			// textSize(14);
+			// text('FPS: ' + floor(frameRate()), 20, 30);
+		}
+		var Glitch = function() {
+			function Glitch() {
+				_classCallCheck(this, Glitch);
+			}
+			Glitch.prototype.resetData = function resetData(destImg, srcPixels) {
+				for (var y = 0; y < destImg.height; y++) {
+					// if (window.CP.shouldStopExecution(6)) {
+					//   break;
+					// }
+					for (var x = 0; x < destImg.width; x++) {
+						// if (window.CP.shouldStopExecution(5)) {
+						//   break;
+						// }
+						var r = undefined,
+							g = undefined,
+							b = undefined,
+							a = undefined;
+						var index = undefined;
+						index = (y * destImg.width + x) * channelLen;
+						r = index;
+						g = index + 1;
+						b = index + 2;
+						a = index + 3;
+						destImg.pixels[r] = srcPixels[r];
+						destImg.pixels[g] = srcPixels[g];
+						destImg.pixels[b] = srcPixels[b];
+						destImg.pixels[a] = srcPixels[a];
+					}
+					// window.CP.exitedLoop(5);
+				}
+				// window.CP.exitedLoop(6);
+				destImg.updatePixels();
+			};
+			Glitch.prototype.flowLine = function flowLine(srcImg, obj) {
+				var destPixels = undefined,
+					tempY = undefined;
+				destPixels = new Uint8ClampedArray(srcImg.pixels);
+				obj.t1 %= srcImg.height;
+				obj.t1 += obj.speed; //tempY = floor(noise(obj.t1) * srcImg.height);
+				tempY = floor(obj.t1);
+				for (var y = 0; y < srcImg.height; y++) {
+					// if (window.CP.shouldStopExecution(8)) {
+					//   break;
+					// }
+					for (var x = 0; x < srcImg.width; x++) {
+						// if (window.CP.shouldStopExecution(7)) {
+						//   break;
+						// }
+						var r = undefined,
+							g = undefined,
+							b = undefined,
+							a = undefined;
+						var index = undefined;
+						if (tempY === y) {
+							index = (y * srcImg.width + x) * channelLen;
+							r = index;
+							g = index + 1;
+							b = index + 2;
+							a = index + 3;
+							destPixels[r] = srcImg.pixels[r] + obj.randX;
+							destPixels[g] = srcImg.pixels[g] + obj.randX;
+							destPixels[b] = srcImg.pixels[b] + obj.randX;
+							destPixels[a] = srcImg.pixels[a];
+						}
+					}
+					// window.CP.exitedLoop(7);
+				}
+				// window.CP.exitedLoop(8);
+				return destPixels;
+			};
+			Glitch.prototype.shiftLine = function shiftLine(srcImg) {
+				var offsetX = undefined;
+				var rangeMin = undefined,
+					rangeMax = undefined;
+				var destPixels = undefined;
+				var rangeH = undefined;
+				destPixels = new Uint8ClampedArray(srcImg.pixels);
+				rangeH = srcImg.height;
+				rangeMin = floor(random(0, rangeH));
+				rangeMax = rangeMin + floor(random(1, rangeH - rangeMin));
+				offsetX = channelLen * floor(random(-30, 30));
+				for (var y = 0; y < srcImg.height; y++) {
+					// if (window.CP.shouldStopExecution(10)) {
+					//   break;
+					// }
+					for (var x = 0; x < srcImg.width; x++) {
+						// if (window.CP.shouldStopExecution(9)) {
+						//   break;
+						// }
+						if (y > rangeMin && y < rangeMax) {
+							var r = undefined,
+								g = undefined,
+								b = undefined,
+								a = undefined;
+							var r2 = undefined,
+								g2 = undefined,
+								b2 = undefined,
+								a2 = undefined;
+							var index = undefined;
+							index = (y * srcImg.width + x) * channelLen;
+							r = index;
+							g = index + 1;
+							b = index + 2;
+							a = index + 3;
+							r2 = r + offsetX;
+							g2 = g + offsetX;
+							b2 = b + offsetX;
+							destPixels[r] = srcImg.pixels[r2];
+							destPixels[g] = srcImg.pixels[g2];
+							destPixels[b] = srcImg.pixels[b2];
+							destPixels[a] = srcImg.pixels[a];
+						}
+					}
+					// window.CP.exitedLoop(9);
+				}
+				// window.CP.exitedLoop(10);/
+				return destPixels;
+			};
+			Glitch.prototype.shiftRGB = function shiftRGB(srcImg) {
+				var randR = undefined,
+					randG = undefined,
+					randB = undefined;
+				var destPixels = undefined;
+				var range = undefined;
+				range = 16;
+				destPixels = new Uint8ClampedArray(srcImg.pixels);
+				randR = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * channelLen;
+				randG = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * channelLen;
+				randB = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * channelLen;
+				for (var y = 0; y < srcImg.height; y++) {
+					// if (window.CP.shouldStopExecution(12)) {
+					//   break;
+					// }
+					for (var x = 0; x < srcImg.width; x++) {
+						// if (window.CP.shouldStopExecution(11)) {
+						//   break;
+						// }
+						var r = undefined,
+							g = undefined,
+							b = undefined,
+							a = undefined;
+						var r2 = undefined,
+							g2 = undefined,
+							b2 = undefined,
+							a2 = undefined;
+						var index = undefined;
+						index = (y * srcImg.width + x) * channelLen;
+						r = index;
+						g = index + 1;
+						b = index + 2;
+						a = index + 3;
+						r2 = (r + randR) % srcImg.pixels.length;
+						g2 = (g + randG) % srcImg.pixels.length;
+						b2 = (b + randB) % srcImg.pixels.length;
+						destPixels[r] = srcImg.pixels[r2];
+						destPixels[g] = srcImg.pixels[g2];
+						destPixels[b] = srcImg.pixels[b2];
+						destPixels[a] = srcImg.pixels[a];
+					}
+					// window.CP.exitedLoop(11);
+				}
+				// window.CP.exitedLoop(12);
+				return destPixels;
+			};
+			Glitch.prototype.getRandomRectImg = function getRandomRectImg(srcImg) {
+				var startX = undefined;
+				var startY = undefined;
+				var rectW = undefined;
+				var rectH = undefined;
+				var destImg = undefined;
+				startX = floor(random(0, srcImg.width - 30));
+				startY = floor(random(0, srcImg.height - 50));
+				rectW = floor(random(30, srcImg.width - startX));
+				rectH = floor(random(1, 50));
+				destImg = srcImg.get(startX, startY, rectW, rectH);
+				destImg.loadPixels();
+				return destImg;
+			};
+			return Glitch;
+		}();
+		//# sourceURL=pen.js
+	</script>
+
+<div id="react" style="height:100%"></div>
+
+
+<script src="https://cdn.bootcss.com/prefixfree/1.0.6/prefixfree.min.js"></script>
+<script src="http://localhost:8080/vendor.js"></script>
+<script src="http://localhost:8080/bundle.js"></script>
+</body>
+</html>
